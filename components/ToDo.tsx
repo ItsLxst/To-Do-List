@@ -9,6 +9,21 @@ function ToDo() {
         setTaskText("");
     }
 
+    function toggleTask(id: number) {
+        setTaskList(taskList.map(task =>{
+            if (task.id === id) {
+                return { ...task, completed: !task.completed };
+            }
+            return task;
+        }))
+    }
+
+    function handleClearCompleted(){
+        setTaskList(taskList.filter(task => {
+            return task.completed === false;
+        }));
+    }
+
     let tasks = [
         { id: 1, text: "Read the project brief", completed: false },
         { id: 2, text: "Set up the development environment", completed: false },
@@ -20,6 +35,14 @@ function ToDo() {
     const [filter, setFilter] = useState("ALL");
     const [taskText, setTaskText] = useState("");
     const [taskList, setTaskList] = useState(tasks);
+
+    let filteredTasks = taskList;
+
+    if (filter === 'ACTIVE') { filteredTasks = taskList.filter(task => !task.completed); }
+    if (filter === 'DONE') { filteredTasks = taskList.filter(task => task.completed); }
+
+    let activeCount = taskList.filter(task => !task.completed).length;
+
     return (
 
         <main className="min-h-full bg-[#F4F3ED] flex flex-col items-center px-4 py-12">
@@ -53,10 +76,12 @@ function ToDo() {
 
             <div className="w-full max-w-xl border-2 border-black py-12 text-center text-black text-md">
                 <ul className="space-y-0 list-none">
-                    {taskList.map((task) => (
+                    {filteredTasks.map((task) => (
                             <li key={task.id}
                                 className="flex items-center gap-4 px-4 py-4 border-2 border-[#0D0D0D] bg-white group transition-colors">
                                 <input type="checkbox"
+                                       onChange={() => toggleTask(task.id)}
+                                       checked={task.completed}
                                        className="w-5 h-5 shrink-0 border-2 border-[#0D0D0D] flex items-center justify-center transition-colors cursor-pointer"/>
                                 {task.text}</li>
                         ))}
@@ -64,8 +89,11 @@ function ToDo() {
             </div>
 
             <div className="w-full max-w-xl mt-4 flex justify-between items-center">
-                <p className="text-xs text-[#999]">2 items left</p>
-                <button className="text-xs text-[#999] hover:text-[#0D0D0D] underline underline-offset-2 transition-colors cursor-pointer">clear completed</button>
+                <p className="text-xs text-[#999]"
+                >{activeCount} items left</p>
+                <button className="text-xs text-[#999] hover:text-[#0D0D0D] underline underline-offset-2 transition-colors cursor-pointer"
+                        onClick={handleClearCompleted}
+                >clear completed</button>
             </div>
 
         </main>
