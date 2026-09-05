@@ -24,7 +24,7 @@ function ToDo() {
         }));
     }
 
-    let tasks = [
+    const tasks = [
         { id: 1, text: "Read the project brief", completed: false },
         { id: 2, text: "Set up the development environment", completed: false },
         { id: 3, text: "Build the first component", completed: false}
@@ -41,21 +41,21 @@ function ToDo() {
     if (filter === 'ACTIVE') { filteredTasks = taskList.filter(task => !task.completed); }
     if (filter === 'DONE') { filteredTasks = taskList.filter(task => task.completed); }
 
-    let activeCount = taskList.filter(task => !task.completed).length;
+    const activeCount = taskList.filter(task => !task.completed).length;
 
     return (
 
         <main className="min-h-full bg-[#F4F3ED] flex flex-col items-center px-4 py-12">
 
             <div className="flex flex-col w-full max-w-xl mb-10">
-                <p className="text-[#AAAAAA] text-xs tracking-widest mb-1">/ TODAY'S LIST</p>
+                <p className="text-[#AAAAAA] text-xs tracking-widest mb-1">/ TODAY&apos;S LIST</p>
                 <h1 className="text-4xl font-bold text-[#0D0D0D] leading-none">To-Do</h1>
                 <span className="w-full h-[3px] bg-[#0D0D0D] mt-4"></span>
             </div>
 
             {/* Add Task */}
             <form onSubmit={handleAddTask}
-                className="w-full max-w-xl mb-8 flex border-2 border-[#0D0D0D]">
+                  className="w-full max-w-xl mb-8 flex border-2 border-[#0D0D0D]">
                 <input type='text' placeholder='What needs to be done?'
                        value={taskText}
                        onChange={(e) => setTaskText(e.target.value)}
@@ -82,14 +82,14 @@ function ToDo() {
             <div className="w-full max-w-xl border-2 border-black text-black text-md">
                 <ul className="space-y-0 list-none">
                     {filteredTasks.map((task) => (
-                            <li key={task.id}
-                                className="flex items-center gap-4 px-4 py-4 bg-white text-[#0D0D0D] bg-white group transition-colors border-b-2 border-black last:border-b-0">
-                                <input type="checkbox"
-                                       onChange={() => toggleTask(task.id)}
-                                       checked={task.completed}
-                                       className="w-5 h-5 shrink-0 rounded-none border-2 border-[#0D0D0D] flex items-center justify-center transition-colors cursor-pointer"/>
-                                {task.text}</li>
-                        ))}
+                        <li key={task.id}
+                            className="flex items-center gap-4 px-4 py-4 bg-white text-[#0D0D0D] bg-white group transition-colors border-b-2 border-black last:border-b-0">
+                            <input type="checkbox"
+                                   onChange={() => toggleTask(task.id)}
+                                   checked={task.completed}
+                                   className="w-5 h-5 shrink-0 rounded-none border-2 border-[#0D0D0D] flex items-center justify-center transition-colors cursor-pointer"/>
+                            {task.text}</li>
+                    ))}
                 </ul>
             </div>
 
