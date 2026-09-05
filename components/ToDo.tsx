@@ -70,19 +70,24 @@ function ToDo() {
                 {filterValues.map(value => (
                     <button type='button' key={value}
                             onClick={() => setFilter(value)}
-                            className="flex-1 py-2 text-xs tracking-widest uppercase transition-colors duration-100 cursor-pointer">{value}</button>
+                            className={`flex-1 py-2 text-xs tracking-widest uppercase hover:bg-[#FAFAF5] transition-colors duration-100 cursor-pointer border-r-2 border-black last:border-r-0           
+                            ${filter === value
+                                ? "bg-[#0D0D0D] text-[#FFE200] hover:animate-none"
+                                : "bg-white text-[#0D0D0D]"}`}
+                    >
+                        {value}</button>
                 ))}
             </div>
 
-            <div className="w-full max-w-xl border-2 border-black py-12 text-center text-black text-md">
+            <div className="w-full max-w-xl border-2 border-black text-black text-md">
                 <ul className="space-y-0 list-none">
                     {filteredTasks.map((task) => (
                             <li key={task.id}
-                                className="flex items-center gap-4 px-4 py-4 border-2 border-[#0D0D0D] bg-white group transition-colors">
+                                className="flex items-center gap-4 px-4 py-4 bg-white text-[#0D0D0D] bg-white group transition-colors border-b-2 border-black last:border-b-0">
                                 <input type="checkbox"
                                        onChange={() => toggleTask(task.id)}
                                        checked={task.completed}
-                                       className="w-5 h-5 shrink-0 border-2 border-[#0D0D0D] flex items-center justify-center transition-colors cursor-pointer"/>
+                                       className="w-5 h-5 shrink-0 rounded-none border-2 border-[#0D0D0D] flex items-center justify-center transition-colors cursor-pointer"/>
                                 {task.text}</li>
                         ))}
                 </ul>
