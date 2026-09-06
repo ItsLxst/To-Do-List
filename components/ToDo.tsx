@@ -24,6 +24,12 @@ function ToDo() {
         }));
     }
 
+    function handleDeleteTask(id: number) {
+        setTaskList(taskList.filter(task => {
+            return task.id !== id;
+        }))
+    }
+
     const tasks = [
         { id: 1, text: "Read the project brief", completed: false },
         { id: 2, text: "Set up the development environment", completed: false },
@@ -83,12 +89,23 @@ function ToDo() {
                 <ul className="space-y-0 list-none">
                     {filteredTasks.map((task) => (
                         <li key={task.id}
-                            className="flex items-center gap-4 px-4 py-4 bg-white text-[#0D0D0D] bg-white group transition-colors border-b-2 border-black last:border-b-0">
+                            className={`flex items-center gap-4 px-4 py-4 
+                            group transition-colors border-b-2 border-black last:border-b-0
+                            ${task.completed 
+                                ? 'line-through bg-[#F4F3ED] text-[#AAAAAA]' : 
+                                  'bg-white text-[#0D0D0D] hover:bg-[#FAFAF5]'
+                            }
+                            `}>
                             <input type="checkbox"
                                    onChange={() => toggleTask(task.id)}
                                    checked={task.completed}
                                    className="w-5 h-5 shrink-0 rounded-none border-2 border-[#0D0D0D] flex items-center justify-center transition-colors cursor-pointer"/>
-                            {task.text}</li>
+                            {task.text}
+                        <button
+                        className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-[#CCCCCC] hover:text-[#0D0D0D]"
+                        onClick={() => handleDeleteTask(task.id)}
+                        >x</button>
+                        </li>
                     ))}
                 </ul>
             </div>
