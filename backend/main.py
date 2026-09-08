@@ -17,6 +17,17 @@ app.add_middleware(
 
 # Pydantic Schemas
 
+class TaskCreate(BaseModel):
+    text: str
+
+class TaskUpdate(BaseModel):
+    completed: bool
+
+class TaskResponse(BaseModel):
+    id: int
+    text: str
+    completed: bool
+
 # test purpose tasks
 tasks_db = [
     {"id": 1, "text": "Read the project brief", "completed": False},
