@@ -1,10 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(title="To-Do API")
 
 # CORS middleware permission to communicate with Next.js
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Pydantic Schemas
 
