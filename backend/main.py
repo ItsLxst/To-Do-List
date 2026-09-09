@@ -38,11 +38,41 @@ tasks_db = [
 # endpoints - 5 for now??
 
 # GET - All tasks.
+@app.get("/tasks")
+def get_tasks():
+    return tasks_db
 
 # POST - create new task
+@app.post("/tasks")
+def create_task(task: TaskCreate):
+    new_task = {
+        "id": len(tasks_db) + 1,
+        "text": task.text,
+        "completed": False,
+    }
+    tasks_db.append(new_task)
+    return new_task
+
 
 # PATCH - change task completed status
+@app.patch("/tasks/{task_id}")
+def toggle_task(task_id : int, task_update: TaskUpdate):
+    for task in tasks_db:
+        if task["id"] == task_id:
+            task["completed"] = task_update.completed
+            return task
+    raise HTTPException(status_code=404, detail="Task not found")
 
 # DELETE - delete completed tasks
+@app.delete("/tasks/completed")
+def clear_completed_tasks():
+    global tasks_db
+    tasks_db = [t for t in tasks_db if not t["completed"]]
+    return {"message": "Completed tasks cleared"}
 
 # DELETE - delete task (one by one)
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id : int):
+    global tasks_db
+    tasks_db = [t for t in tasks_db if t["id"] != task_id]
+    return {"message" : "Task deleted"}
