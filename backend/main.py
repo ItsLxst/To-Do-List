@@ -2,13 +2,26 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String, Boolean
-from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
+from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session, Mapped, mapped_column
 import os
 from dotenv import load_dotenv
 
+class Base(DeclarativeBase):
+    pass
+
+class Task(Base):
+    __tablename__ = "tasks"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    text: Mapped[str] = mapped_column(String(255), nullable=False)
+    completed: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
+engine = create_engine(DATABASE_URL) # sqlalchemy and db connect
+SessionLocal = sessionmaker(bind=engine) # creating a session factory will send query to db
 
+db = SessionLocal() # active db connection
 
 app = FastAPI(title="To-Do API")
 
