@@ -1,5 +1,5 @@
     'use client';
-    import { useState } from 'react';
+    import { useState, useEffect } from 'react';
 
     interface Task {
         id: number;
@@ -45,6 +45,10 @@
         const [filter, setFilter] = useState("ALL");
         const [taskText, setTaskText] = useState("");
         const [taskList, setTaskList] = useState(tasks);
+
+        useEffect(() => {
+            setTaskList(tasks);
+        }, [tasks]);
 
         let filteredTasks = taskList;
 
