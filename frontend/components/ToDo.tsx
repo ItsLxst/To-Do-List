@@ -15,7 +15,17 @@
 
         function handleAddTask(e: React.SubmitEvent<HTMLFormElement>) {
             e.preventDefault();
-            setTaskList([...taskList, { id: taskList.length + 1, text: taskText, completed: false }]);
+            fetch('http://localhost:8000/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: taskText, completed: false })
+            })
+            .then(res => res.json())
+            .then(newTask => {
+                setTaskList([...taskList, newTask]);
+            });
             setTaskText("");
         }
 
