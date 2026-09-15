@@ -30,12 +30,19 @@
         }
 
         function toggleTask(id: number) {
-            setTaskList(taskList.map(task =>{
-                if (task.id === id) {
-                    return { ...task, completed: !task.completed };
-                }
-                return task;
-            }))
+            fetch(`http://localhost:8000/tasks/${id}`, { 
+                method: 'PATCH', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ completed: !taskList.find(task => task.id === id)?.completed }) })
+            .then(res => res.json())
+            .then(updatedTask => {
+                setTaskList(taskList.map(task => {
+                    if (task.id === id) {
+                        return updatedTask;
+                    }
+                    return task;
+                }));
+            });
         }
 
         function handleClearCompleted(){
