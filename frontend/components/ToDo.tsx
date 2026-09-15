@@ -35,9 +35,12 @@
         }
 
         function handleDeleteTask(id: number) {
-            setTaskList(taskList.filter(task => {
-                return task.id !== id;
-            }))
+            fetch(`http://localhost:8000/tasks/${id}`, { method: 'DELETE' })
+            .then(() => {
+                setTaskList(taskList.filter(task => {
+                    return task.id !== id;
+                }))
+            })
         }
 
         const filterValues = ['ALL', 'ACTIVE', 'DONE'];
