@@ -46,9 +46,12 @@
         }
 
         function handleClearCompleted(){
-            setTaskList(taskList.filter(task => {
-                return task.completed === false;
-            }));
+            fetch(`http://localhost:8000/tasks/completed`, { method: 'DELETE' })
+            .then(() => {
+                setTaskList(taskList.filter(task => {
+                    return task.completed === false;
+                }));
+            });
         }
 
         function handleDeleteTask(id: number) {
